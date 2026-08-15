@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="برنامه">
+<meta name="theme-color" content="#EDF0EA">
+<title>برنامه — ۶۷ تا ۵۹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --ground:#EDF0EA;--panel:#FFF;--rule:#DDE3D8;--ink:#1C2620;--muted:#6E7A6E;
+  --signal:#3D6B4A;--accent:#8A4A6B;--soft:#F1E4EC;--softg:#E4EBE3;--warn:#B0791A;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+html,body{margin:0;padding:0;background:var(--ground);}
+body{font-family:'Vazirmatn',system-ui,-apple-system,sans-serif;color:var(--ink);font-size:15px;line-height:1.7;
+padding-bottom:calc(74px + var(--safe-b));-webkit-font-smoothing:antialiased;}
+.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;direction:ltr;display:inline-block;}
+header{padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 0;}
+.date{font-size:12px;color:var(--muted);}
+h1{font-size:21px;font-weight:700;margin:2px 0 14px;letter-spacing:-.01em;}
+h2{font-size:16px;font-weight:700;margin:0 0 8px;}
+main{padding:0 16px;max-width:640px;margin:0 auto;}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:16px;margin-bottom:12px;}
+.muted{color:var(--muted);font-size:13px;line-height:1.75;}
+.hero{display:flex;align-items:center;gap:16px;}
+.hero svg{flex-shrink:0;}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:8px;}
+.pill.f{background:var(--softg);color:var(--signal);}
+.pill.e{background:var(--soft);color:var(--accent);}
+.timer{font-size:32px;font-weight:500;line-height:1;letter-spacing:-.02em;}
+.bar{height:8px;background:#E4E9E0;border-radius:6px;overflow:hidden;margin:8px 0 4px;}
+.bar>i{display:block;height:100%;background:var(--signal);border-radius:6px;transition:width .3s;}
+.bar.p>i{background:var(--accent);}
+.bar.k>i{background:var(--warn);}
+.rowline{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);}
+.cnt{display:flex;align-items:center;gap:12px;margin-top:12px;}
+.cbtn{width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#F7F9F6;font-size:22px;color:var(--ink);cursor:pointer;font-family:inherit;}
+.cbtn:active{background:var(--soft);}
+.cval{font-family:'IBM Plex Mono',monospace;font-size:26px;min-width:60px;text-align:center;}
+.chk{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--rule);cursor:pointer;font-size:14.5px;}
+.chk:last-child{border-bottom:0;}
+.bx{width:24px;height:24px;border:1.5px solid var(--rule);border-radius:7px;flex:0 0 auto;display:grid;place-items:center;background:#fff;}
+.bx.on{background:var(--signal);border-color:var(--signal);}
+.bx.on::after{content:"";width:11px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-2px);}
+.ex{padding:13px 0;border-bottom:1px solid var(--rule);}
+.ex:last-child{border-bottom:0;}
+.ex-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;}
+.ex-n{font-weight:500;font-size:15px;}
+.ex-d{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent);white-space:nowrap;direction:ltr;}
+.ex-c{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.65;}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--softg);color:var(--signal);margin-inline-start:6px;}
+.tag.warn{background:#FBF0DC;color:#8A6516;}
+.wk{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14px;}
+.wk:last-child{border-bottom:0;}
+.wk.now{font-weight:700;}
+.wk span:last-child{color:var(--muted);font-size:12.5px;}
+.meal{padding:13px 0;border-bottom:1px solid var(--rule);}
+.meal:last-child{border-bottom:0;}
+.meal-h{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
+.meal-t{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);direction:ltr;white-space:nowrap;}
+.meal-b{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.75;}
+.fields{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.fld{flex:1 1 44%;}
+label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;}
+input{width:100%;font-family:'IBM Plex Mono',monospace;font-size:16px;padding:12px;border:1px solid var(--rule);border-radius:10px;background:#F7F9F6;color:var(--ink);text-align:center;direction:ltr;}
+input.txt{font-family:'Vazirmatn',sans-serif;text-align:right;direction:rtl;}
+input:focus{outline:2px solid var(--accent);outline-offset:-1px;background:#fff;}
+.btn{width:100%;font-family:inherit;font-size:15px;font-weight:500;margin-top:12px;background:var(--ink);color:var(--ground);border:0;border-radius:12px;padding:14px;cursor:pointer;}
+.btn:active{opacity:.85;}
+.btn.g{background:var(--muted);}
+.btn.sm{padding:11px;font-size:14px;margin-top:0;}
+.stats{display:flex;gap:8px;}
+.st{flex:1;text-align:center;padding:10px 4px;background:#F7F9F6;border-radius:10px;}
+.st .n{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;display:block;direction:ltr;}
+.st .l{font-size:11px;color:var(--muted);}
+.note{font-size:12.5px;color:var(--muted);line-height:1.8;border-inline-start:3px solid var(--rule);padding-inline-start:12px;margin-top:14px;}
+.note.a{border-inline-start-color:var(--accent);}
+nav{position:fixed;bottom:0;inset-inline:0;background:rgba(253,254,252,.94);backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--rule);display:flex;padding-bottom:var(--safe-b);z-index:50;}
+nav button{flex:1;background:none;border:0;font-family:inherit;font-size:11px;color:var(--muted);
+padding:9px 0 7px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;}
+nav button.on{color:var(--accent);font-weight:700;}
+nav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.hide{display:none!important;}
+
+/* ---- food logger ---- */
+.srch{position:relative;}
+.res{border:1px solid var(--rule);border-radius:12px;margin-top:8px;overflow:hidden;max-height:260px;overflow-y:auto;}
+.res div{padding:12px 14px;border-bottom:1px solid var(--rule);cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:14px;}
+.res div:last-child{border-bottom:0;}
+.res div:active{background:var(--soft);}
+.res small{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:11.5px;direction:ltr;white-space:nowrap;}
+.sel{background:#F7F9F6;border:1px solid var(--accent);border-radius:12px;padding:14px;margin-top:10px;}
+.sel-n{font-weight:700;font-size:15px;margin-bottom:2px;}
+.live{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);direction:ltr;text-align:right;margin-top:8px;}
+.log{margin-top:6px;}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14px;}
+.li:last-child{border-bottom:0;}
+.li .meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);direction:ltr;}
+.del{background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;padding:0 6px;line-height:1;font-family:inherit;}
+.del:active{color:var(--accent);}
+.seg{display:flex;gap:6px;margin-bottom:10px;}
+.seg button{flex:1;font-family:inherit;font-size:13px;padding:10px;border-radius:10px;border:1px solid var(--rule);background:#F7F9F6;color:var(--muted);cursor:pointer;}
+.seg button.on{background:var(--ink);color:var(--ground);border-color:var(--ink);font-weight:500;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="date" id="today"></div>
+  <h1>از ۶۷ به ۵۹</h1>
+</header>
+
+<main>
+<!-- ================= TODAY ================= -->
+<section id="v-today">
+  <div class="card hero">
+    <svg width="100" height="100" viewBox="0 0 220 220" id="dial"></svg>
+    <div style="flex:1;min-width:0;">
+      <span class="pill" id="fstate"></span>
+      <div class="timer num" id="ftimer">—</div>
+      <div class="muted" id="fnote" style="margin-top:6px;font-size:12.5px;"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>امروز چی خوردی</h2>
+    <div class="rowline"><span>پروتئین</span><span class="num" id="plabel">0 / 110 g</span></div>
+    <div class="bar p"><i id="pbar" style="width:0%"></i></div>
+    <div class="rowline" style="margin-top:8px;"><span>کالری</span><span class="num" id="klabel">0 / 1400</span></div>
+    <div class="bar k"><i id="kbar" style="width:0%"></i></div>
+
+    <div class="seg" style="margin-top:16px;">
+      <button id="tab-s" class="on" onclick="mode('s')">جستجو در لیست</button>
+      <button id="tab-m" onclick="mode('m')">وارد کردن دستی</button>
+    </div>
+
+    <!-- search mode -->
+    <div id="m-search">
+      <div class="srch">
+        <input class="txt" id="q" placeholder="اسم غذا را بنویس… مثلاً پاستا، سوسیس، ماست" oninput="doSearch()">
+      </div>
+      <div class="res hide" id="res"></div>
+      <div class="sel hide" id="sel">
+        <div class="sel-n" id="sel-n"></div>
+        <div class="muted" id="sel-base" style="font-size:12px;"></div>
+        <div class="fields">
+          <div class="fld"><label id="sel-lab">مقدار (گرم)</label><input id="sel-amt" inputmode="decimal" oninput="live()"></div>
+          <div class="fld" style="display:flex;align-items:flex-end;"><button class="btn sm" style="width:100%" onclick="addSel()">ثبت</button></div>
+        </div>
+        <div class="live" id="sel-live"></div>
+      </div>
+    </div>
+
+    <!-- manual mode -->
+    <div id="m-manual" class="hide">
+      <div class="muted" style="margin-bottom:8px;">فقط اسم غذا و مقدارش به گرم را بنویس. پروتئین و کالری را خود اپ تخمین می‌زند.</div>
+      <input class="txt" id="mn" placeholder="اسم غذا — مثلاً کیک شکلاتی" oninput="guess()">
+      <div class="fields">
+        <div class="fld"><label>چند گرم خوردی؟</label><input id="mg" inputmode="decimal" placeholder="150" oninput="mlive()"></div>
+      </div>
+      <div class="chips" id="sizes"></div>
+      <div id="guessbox" style="margin-top:12px;"></div>
+      <div class="live" id="mlive"></div>
+      <button class="btn sm" style="width:100%;margin-top:12px;" onclick="addManual()">ثبت</button>
+    </div>
+
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="card">
+    <h2>وقفه‌های حرکتی</h2>
+    <div class="muted">هر ساعت ۳ دقیقه بلند شو. هدف ۶ بار. جای پیاده‌روی را می‌گیرد و برای زانو هم لازم است — نشستن طولانی با زانوی خم دقیقاً همان چیزی است که کندرومالاسی را اذیت می‌کند.</div>
+    <div class="cnt">
+      <button class="cbtn" onclick="bump(-1)">−</button>
+      <div class="cval" id="bval">0</div>
+      <button class="cbtn" onclick="bump(1)">+</button>
+      <span class="muted">از ۶</span>
+    </div>
+    <div class="bar"><i id="bbar" style="width:0%"></i></div>
+  </div>
+
+  <div class="card">
+    <h2>پنج کار امروز</h2>
+    <div class="muted" style="margin-bottom:4px;">این پنج‌تا در کنترل توست — عدد ترازو نیست.</div>
+    <div id="checks"></div>
+  </div>
+</section>
+
+<!-- ================= TRAIN ================= -->
+<section id="v-train" class="hide">
+  <div class="card">
+    <div class="muted" id="wfocus" style="font-size:12px;"></div>
+    <h2 id="wname" style="margin-top:2px;"></h2>
+    <div id="wlist"></div>
+    <div class="note a">هیچ حرکتی پرشی نیست و هیچ‌کدام زانو را عمیق خم نمی‌کند. اگر حرکتی حین اجرا یا صبح روز بعد زانو را درد آورد، همان یکی را حذف کن. ساعت تمرین: قبل از ۹ صبح یا حوالی ۱۹.</div>
+  </div>
+  <div class="card"><h2>هفته</h2><div id="week"></div></div>
+</section>
+
+<!-- ================= FOOD ================= -->
+<section id="v-food" class="hide">
+  <div class="card"><h2>ساختار روز — ۱۴۰۰ کالری، ۱۱۰ گرم پروتئین</h2><div id="plan"></div></div>
+  <div class="card"><h2>ناهار با برنج</h2><div id="l-rice"></div></div>
+  <div class="card"><h2>پاستا — شش نسخه</h2><div id="l-pasta"></div>
+    <div class="note">سس گوجه آماده (passata یا sugo ساده) کاملاً مجاز است، حدود ۵۵ کالری در ۱۰۰ گرم. مشکل سس‌های خامه‌ای و پستو است: پستو نزدیک ۴۵۰ کالری در ۱۰۰ گرم دارد. اگر پستو می‌خوری، یک قاشق غذاخوری، نه بیشتر. پشت قوطی را نگاه کن — اگر روغن جزو سه ماده اول بود، سس پرکالری است.</div>
+  </div>
+  <div class="card"><h2>سوسیس مرغ، سیب‌زمینی و سریع‌ها</h2><div id="l-quick"></div>
+    <div class="note">سوسیس مرغ راحت و ارزان است ولی پروتئینش حدود ۱۴ گرم در ۱۰۰ گرم است — کمتر از نصف سینه مرغ — و نمکش بالاست. هفته‌ای یکی دو بار خوب است، هر روز نه. هر وقت خوردی، یک تخم‌مرغ یا ماست کنارش بگذار تا پروتئین وعده جبران شود. سیب‌زمینی را در فر بپز نه سرخ: سیب‌زمینی آب‌پز حدود ۸۷ کالری در ۱۰۰ گرم است و سرخ‌کرده حدود ۳۱۲.</div>
+  </div>
+  <div class="card"><h2>شام</h2><div id="l-dinner"></div></div>
+  <div class="card"><h2>خرید هفتگی — حدود ۲۵ یورو</h2><div id="shop"></div>
+    <div class="note">لیدل، اوروسپین یا ام‌دی. مرغ کامل بخر و خودت قطعه کن. سبزیجات منجمد ارزان‌تر از تازه است و در گرما خراب نمی‌شود.</div>
+  </div>
+</section>
+
+<!-- ================= PROGRESS ================= -->
+<section id="v-prog" class="hide">
+  <div class="card">
+    <div class="stats">
+      <div class="st"><span class="n" id="s-now">—</span><span class="l">کیلو الان</span></div>
+      <div class="st"><span class="n" id="s-lost" style="color:var(--signal)">—</span><span class="l">کم شده</span></div>
+      <div class="st"><span class="n" id="s-togo">—</span><span class="l">تا هدف</span></div>
+    </div>
+    <div class="bar"><i id="gbar" style="width:0%"></i></div>
+    <div class="rowline"><span id="gpct">0%</span><span>هدف ۵۹ کیلو</span></div>
+  </div>
+  <div class="card">
+    <h2>ثبت امروز</h2>
+    <div class="fields">
+      <div class="fld"><label>وزن (kg)</label><input id="i-weight" inputmode="decimal" placeholder="—"></div>
+      <div class="fld"><label>دور شکم (cm)</label><input id="i-waist" inputmode="decimal" placeholder="—"></div>
+      <div class="fld"><label>دور ران (cm)</label><input id="i-thigh" inputmode="decimal" placeholder="—"></div>
+      <div class="fld"><label>دور بازو (cm)</label><input id="i-arm" inputmode="decimal" placeholder="—"></div>
+    </div>
+    <button class="btn" onclick="saveEntry()">ذخیره</button>
+    <div class="note">هر بار در شرایط یکسان: بعد از دستشویی، قبل از اولین نوشیدنی. متر را هفته‌ای یک‌بار بردار. وقتی ترازو تکان نمی‌خورد، معمولاً متر خورده است.</div>
+  </div>
+  <div class="card"><h2>نمودار وزن</h2><div id="chart"></div></div>
+</section>
+</main>
+
+<nav>
+  <button data-v="today" class="on" onclick="go('today')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>امروز</button>
+  <button data-v="train" onclick="go('train')"><svg viewBox="0 0 24 24"><path d="M4 9v6M20 9v6M7 6v12M17 6v12M7 12h10"/></svg>تمرین</button>
+  <button data-v="food" onclick="go('food')"><svg viewBox="0 0 24 24"><path d="M5 3v8a3 3 0 006 0V3M8 11v10M17 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM17 12v9"/></svg>غذا</button>
+  <button data-v="prog" onclick="go('prog')"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15l4-5 3 3 5-7"/></svg>پیشرفت</button>
+</nav>
+
+<script>
+var mem={};
+var store={
+ async get(k){try{if(window.storage){var r=await window.storage.get(k);return r?r.value:null;}}catch(e){}
+  try{return localStorage.getItem(k);}catch(e){return mem[k]||null;}},
+ async set(k,v){try{if(window.storage){await window.storage.set(k,v);return;}}catch(e){}
+  try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}
+};
+
+var KEY='barnameh-v3',FAST_END=14,FAST_START=21,P_GOAL=110,K_GOAL=1400,B_GOAL=6;
+var D={start:67.5,goal:59,entries:{},days:{}};
+
+/* ---- FOOD DB: [نام, کلیدواژه, پروتئین, کالری, واحد, پیش‌فرض] ----
+   واحد 'g' = به ازای ۱۰۰ گرم | 'u' = به ازای هر عدد/واحد */
+var FOODS=[
+ ['برنج پخته','rice berenj',2.7,130,'g',150],
+ ['پاستا پخته','pasta makaroni ماکارونی',5.8,158,'g',200],
+ ['پاستا خشک (وزن قبل از پخت)','pasta dry',13,371,'g',80],
+ ['ماکارونی ایرانی با گوشت','makaroni',7,180,'g',250],
+ ['نان سبوس‌دار','bread nan',9,250,'g',40],
+ ['نان سفید / باگت','bread nan white',8,265,'g',40],
+ ['سیب‌زمینی آب‌پز یا فر','potato sibzamini',2.2,90,'g',200],
+ ['سیب‌زمینی سرخ‌کرده','fries potato sibzamini',3.4,312,'g',120],
+ ['سینه مرغ پخته','chicken morgh',31,165,'g',150],
+ ['ران مرغ پخته','chicken morgh ران',26,209,'g',150],
+ ['سوسیس مرغ / وورستل','sausage susis wurstel سوسیس',14,170,'g',100],
+ ['تن ماهی آبکش‌شده','tuna ton tonno',26,116,'g',80],
+ ['تخم‌مرغ','egg tokhmemorgh تخم مرغ',6.3,78,'u',3],
+ ['گوشت چرخ‌کرده پخته','beef gusht قیمه چرخ',26,250,'g',100],
+ ['کباب تابه‌ای','kabab کباب',18,250,'g',120],
+ ['کتلت','kotlet کتلت',10,220,'g',120],
+ ['ماهی سفید / کاد','fish mahi merluzzo',18,82,'g',150],
+ ['عدس پخته','lentil adas عدس',9,116,'g',200],
+ ['نخود پخته','chickpea nokhod',8.9,164,'g',150],
+ ['لوبیا پخته','beans lubia',8,127,'g',150],
+ ['خورش قرمه‌سبزی','ghormeh khoresh خورش',7,140,'g',200],
+ ['خورش قیمه','gheimeh khoresh خورش',6,130,'g',200],
+ ['ماست کم‌چرب','yogurt mast ماست',5,60,'g',150],
+ ['ماست پرچرب','yogurt mast ماست',4,90,'g',150],
+ ['ماست یونانی','greek yogurt mast',10,97,'g',170],
+ ['پنیر سفید','cheese panir پنیر',17,265,'g',60],
+ ['پنیر کاتیج / فیوکی دی لاته','cottage fiocchi panir',11,98,'g',100],
+ ['ریکوتا','ricotta panir',11,174,'g',100],
+ ['موزارلا','mozzarella panir',22,280,'g',80],
+ ['پارمزان','parmesan parmigiano panir',36,392,'g',15],
+ ['شیر کم‌چرب','milk shir شیر',3.4,46,'g',200],
+ ['پودینگ پروتئین','pro pudding protein پودینگ',25,200,'u',1],
+ ['پودر پروتئین وی','whey protein پودر',80,400,'g',30],
+ ['سس گوجه آماده (passata)','sauce sos sugo passata سس',1.5,55,'g',120],
+ ['سس پستو','pesto sauce sos سس',4,450,'g',20],
+ ['سس خامه‌ای / آلفردو','cream sauce sos سس',3,200,'g',80],
+ ['روغن زیتون','oil roghan olio روغن',0,884,'g',10],
+ ['کره','butter kare کره',0.9,717,'g',10],
+ ['مایونز','mayo mayonez',1,680,'g',15],
+ ['سبزیجات مخلوط پخته','vegetables sabzijat سبزی',2,45,'g',200],
+ ['سالاد سبز','salad salat سالاد',1.5,20,'g',150],
+ ['گوجه','tomato goje گوجه',0.9,18,'g',100],
+ ['خیار','cucumber khiar خیار',0.7,15,'g',100],
+ ['قارچ','mushroom gharch قارچ',3,22,'g',100],
+ ['اسفناج','spinach esfenaj',2.9,23,'g',100],
+ ['بادمجان پخته','eggplant bademjan',0.8,60,'g',150],
+ ['سیب','apple sib سیب',0.3,52,'g',150],
+ ['موز','banana moz موز',1.1,89,'g',120],
+ ['پرتقال','orange porteghal',0.9,47,'g',150],
+ ['توت‌فرنگی','strawberry tut',0.7,32,'g',150],
+ ['هندوانه','watermelon hendevaneh',0.6,30,'g',300],
+ ['انگور','grapes angur',0.7,69,'g',150],
+ ['شکلات شیری','chocolate shokolat شکلات',7.6,535,'g',25],
+ ['شکلات تلخ ۸۵٪','dark chocolate shokolat شکلات',10,600,'g',20],
+ ['بیسکویت','biscuit biskuit بیسکویت',7,460,'g',25],
+ ['کیک','cake keik کیک',5,350,'g',60],
+ ['بستنی','ice cream bastani بستنی',3.5,200,'g',80],
+ ['چیپس','chips chipse',6,536,'g',30],
+ ['گردو','walnut gerdu',15,654,'g',20],
+ ['بادام','almond badam',21,579,'g',20],
+ ['کره بادام‌زمینی','peanut butter',25,588,'g',20],
+ ['قهوه با شیر','coffee latte قهوه',3,60,'g',150],
+ ['چای بدون شکر','tea chai چای',0,0,'g',200]
+];
+
+var PROGRAM={
+ 1:{n:'پایین‌تنه A',f:'باسن و ران · بدون فشار روی کاسه زانو',m:28,w:[
+  ['پل باسن','3 × 15','هر دو دمبل روی لگن. هیچ فشاری روی زانو ندارد.','safe'],
+  ['ددلیفت رومانیایی','3 × 12','لولای لگن، نه اسکات. زانو کمی خم و ثابت.','safe'],
+  ['پل باسن تک‌پا','3 × 10 هر پا','بهترین حرکت باسن بدون باشگاه.','safe'],
+  ['بالا آوردن پای صاف','3 × 12 هر پا','زانو کاملاً صاف، پا را تا ارتفاع زانوی خم بالا بیاور.','safe'],
+  ['بالا بردن پا از پهلو','3 × 15 هر پا','آهسته، بدون تاب.','safe'],
+  ['حرکت صدفی','3 × 15 هر پا','پاها چسبیده، زانوی بالایی را باز کن.','safe'],
+  ['باز کردن پا از پهلو ایستاده','3 × 15 هر پا','دیوار را بگیر، پای صاف را به پهلو ببر.','safe']]},
+ 2:{n:'کاردیو خانگی و مرکز بدن',f:'بدون ضربه، بدون پرش',m:25,w:[
+  ['بوکس سایه','5 × 2 دقیقه','کاردیوی واقعی، صفر فشار روی زانو.','safe'],
+  ['درجا راه رفتن','3 × 2 دقیقه','زانو فقط تا هم‌سطح لگن.','warn'],
+  ['دد باگ','3 × 10 هر طرف','گودی کمر روی مت بچسبد.','safe'],
+  ['پلانک','3 × 30 ثانیه','باسن منقبض، لگن هم‌سطح.','safe'],
+  ['پلانک پهلو','2 × 20 ثانیه هر طرف','اگر سخت بود، از روی زانو.','safe']]},
+ 3:{n:'بالاتنه',f:'بازو و سرشانه',m:28,w:[
+  ['پرس سرشانه','3 × 12','قفسه سینه پایین، کمر قوس ندهد.','safe'],
+  ['نشر از جانب','3 × 15','همان حرکتی که خط شانه تا بازو را عوض می‌کند.','safe'],
+  ['پارویی خم','3 × 12','دمبل را تا دنده‌ها بکش، کتف‌ها را جمع کن.','safe'],
+  ['جلو بازو','3 × 15','سه ثانیه در مسیر پایین.','safe'],
+  ['پشت بازو بالای سر','3 × 12','یک دمبل با دو دست.','safe'],
+  ['شنا روی زانو','3 × 8–12','زیر زانو بالشتک بگذار.','safe'],
+  ['دیپ روی صندلی','3 × 10','اگر شانه اذیت شد، متوقف کن.','safe']]},
+ 4:{n:'تحرک و ریکاوری',f:'جبران نشستن پشت میز',m:20,w:[
+  ['کشش خم‌کننده ران','2 × 40 ثانیه هر پا','ساعت‌ها نشستن اینها را کوتاه می‌کند.','safe'],
+  ['گربه و گاو','10 دور آهسته','ستون فقرات را باز کن.','safe'],
+  ['کشش همسترینگ و باسن','2 × 40 ثانیه هر پا','ملایم، بدون فنر زدن.','safe'],
+  ['انقباض ایزومتریک چهارسر','3 × 10 × 5 ثانیه','پا صاف، جلوی ران را سفت کن. بی‌خطرترین تمرین برای زانوی تو.','safe'],
+  ['تنفس جعبه‌ای','5 دقیقه','۴ دم، ۴ نگه، ۴ بازدم، ۴ نگه.','safe'],
+  ['پیاده‌روی شبانه','20 دقیقه بعد از ۲۱:۳۰','وقتی هوا قابل تحمل شد.','safe']]},
+ 5:{n:'پایین‌تنه B',f:'باسن و ران · عمق کنترل‌شده',m:28,w:[
+  ['اسکات روی صندلی','3 × 12','تا هر عمقی که درد ندارد — نه بیشتر.','warn'],
+  ['هیپ تراست روی مبل','3 × 12','شانه‌ها لبه مبل، دمبل روی لگن.','safe'],
+  ['اسکات سومو نیمه','3 × 15','پاها باز، عمیق نرو.','warn'],
+  ['لگد به عقب چهار دست و پا','3 × 15 هر پا','پاشنه به سقف، بالا منقبض کن.','safe'],
+  ['نگه‌داشتن پل باسن','3 × 30 ثانیه','جایگزین وال‌سیت.','safe'],
+  ['ساق پا ایستاده','3 × 20','بالا مکث کن.','safe']]},
+ 6:{n:'تمام بدن',f:'کم‌فشار',m:24,w:[
+  ['۳ دور · ۴۵ ثانیه کار / ۲۰ ثانیه استراحت','','سرعت متوسط. هیچ حرکتی از زمین کنده نمی‌شود.','safe'],
+  ['اسکات تا پرس، نیمه','45 ثانیه','','warn'],
+  ['پارویی خم','45 ثانیه','','safe'],
+  ['پل باسن','45 ثانیه','','safe'],
+  ['بوکس سایه','45 ثانیه','','safe'],
+  ['پلانک','45 ثانیه','','safe'],
+  ['قدم به پهلو','45 ثانیه','جایگزین حرکات پرشی.','safe']]},
+ 0:{n:'استراحت',f:'ریکاوری کامل',m:0,w:[
+  ['امروز تمرین نکن','','رشد عضله در روز استراحت اتفاق می‌افتد.','safe'],
+  ['کشش سبک','10 دقیقه','اختیاری.','safe']]}
+};
+var DAYNAMES=['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنج‌شنبه','جمعه','شنبه'];
+var ORDER=[1,2,3,4,5,6,0];
+var CHECKS=[['fast','پنجره روزه را نگه داشتم'],['train','تمرین کردم'],
+ ['protein','قبل از ۲۱ پروتئینم را رساندم'],['water','۲.۵ لیتر آب'],['sleep','۷ ساعت خواب']];
+
+var PLAN=[
+ ['14:00','ناهار — ۶۰۰ کالری، ۵۵ گرم پروتئین','هر پایه‌ای که دوست داری: برنج، پاستا یا سیب‌زمینی. قانون ثابت این است: پایه را وزن کن و پروتئین را به ۱۵۰ گرم برسان.'],
+ ['17:30','میان‌وعده — ۲۰۰ کالری، ۲۵ گرم پروتئین','پودینگ پروتئین یا ۲۰۰ گرم ماست با میوه.'],
+ ['هر وقت تا ۲۱','شکلات — ۱۸۰ کالری','یک شکلات کوچک، دو بیسکویت یا یک بستنی کوچک. حذف نمی‌شود، بودجه دارد. تکی بخر نه بسته بزرگ.'],
+ ['20:30','شام — ۴۲۰ کالری، ۳۲ گرم پروتئین','تخم‌مرغ، تن ماهی، پنیر یا سوپ عدس.'],
+ ['21:00','پنجره بسته می‌شود','آب، چای و قهوه تلخ تا ۱۴. سردرد صبح؟ یک نوک انگشت نمک در آب.']
+];
+
+var RICE=[
+ ['۵۵ گرم پروتئین','مرغ و برنج','۱۵۰ گرم سینه مرغ + ۳/۴ پیمانه برنج + سالاد + ۱۵۰ گرم ماست.'],
+ ['۵۰ گرم','تن ماهی و برنج','۱ قوطی تن آبکش‌شده + برنج + خیار و گوجه + ماست.'],
+ ['۴۵ گرم','عدس‌پلو سبک','۱ پیمانه عدس پخته + برنج + کمی کشمش، بدون روغن اضافه.'],
+ ['۴۸ گرم','خورش کم‌روغن','خورش را زیاد بپز و در یخچال بگذار؛ چربی روی سطحش سفت می‌شود و با قاشق برمی‌داری. حدود ۱۵۰ کالری صرفه‌جویی در هر وعده.'],
+ ['۴۲ گرم','کباب تابه‌ای بهتر','گوشت چرخ‌کرده کم‌چرب، در فر بپز نه سرخ. با نصف برنج.']
+];
+
+var PASTA=[
+ ['۴۰ گرم پروتئین · ~۵۸۰ کالری','پاستا با تن ماهی و سس گوجه','۸۰ گرم پاستای خشک + ۱ قوطی تن + ۱۲۰ گرم سس گوجه ساده + سیر و فلفل. ارزان‌ترین و سریع‌ترین پاستای پرپروتئین.'],
+ ['۴۵ گرم · ~۶۲۰ کالری','پاستا با مرغ و سس گوجه','۸۰ گرم پاستا + ۱۲۰ گرم سینه مرغ خردشده + سس گوجه + ریحان.'],
+ ['۳۸ گرم · ~۶۰۰ کالری','پاستا با سوسیس مرغ و سبزیجات','۸۰ گرم پاستا + ۱۰۰ گرم سوسیس مرغ + قارچ و اسفناج منجمد + سس گوجه. سوسیس را در تابه بدون روغن اضافه سرخ کن.'],
+ ['۳۵ گرم · ~۵۹۰ کالری','پاستا با ریکوتا و اسفناج','۸۰ گرم پاستا + ۱۰۰ گرم ریکوتا + اسفناج + کمی پارمزان. یک قاشق پارمزان کافی است.'],
+ ['۳۲ گرم · ~۶۴۰ کالری','پاستا با پستو','۸۰ گرم پاستا + فقط ۱ قاشق غذاخوری پستو + ۱ قوطی تن. پستو خوشمزه اما پرکالری‌ترین سس است.'],
+ ['۴۴ گرم · ~۶۱۰ کالری','پاستا سرد تابستانی','۸۰ گرم پاستا پخته و خنک‌شده + تن ماهی + گوجه + خیار + ۱ قاشق روغن زیتون + ریحان. برای این گرما عالی است.']
+];
+
+var QUICK=[
+ ['۳۸ گرم پروتئین · ~۵۵۰ کالری','سوسیس مرغ و سیب‌زمینی فر','۱۰۰ گرم سوسیس مرغ + ۲۵۰ گرم سیب‌زمینی در فر با کمی روغن زیتون + سالاد + ۱۵۰ گرم ماست. ماست پروتئین وعده را بالا می‌برد.'],
+ ['۳۵ گرم · ~۵۲۰ کالری','سوسیس مرغ و تخم‌مرغ','۸۰ گرم سوسیس + ۲ تخم‌مرغ + گوجه و قارچ، همه در یک تابه + ۱ برش نان.'],
+ ['۳۰ گرم · ~۴۸۰ کالری','سیب‌زمینی شکم‌پر','سیب‌زمینی بزرگ فر + ۱۰۰ گرم پنیر کاتیج + سبزی. ده دقیقه کار.'],
+ ['۴۰ گرم · ~۵۰۰ کالری','املت سبزیجات','۳ تخم‌مرغ + اسفناج منجمد و قارچ + ۲ برش نان سبوس‌دار + ماست.'],
+ ['۳۶ گرم · ~۵۴۰ کالری','ساندویچ تن یا مرغ','۲ برش نان سبوس‌دار + تن ماهی یا مرغ پخته + سبزیجات + ماست به جای مایونز.']
+];
+
+var DINNER=[
+ ['۳۰ گرم','تخم‌مرغ و نان','۳ تخم‌مرغ آب‌پز + ۱ برش نان سبوس‌دار + خیار و گوجه.'],
+ ['۲۸ گرم','پنیر و نان','۶۰ گرم پنیر سفید + ۲ برش نان + سبزی و خیار.'],
+ ['۳۵ گرم','تن ماهی و ماست','۱ قوطی تن + ۱۵۰ گرم ماست + ۱ برش نان.'],
+ ['۲۶ گرم','سوپ عدس','عدس با هویج و پیاز + ۱ تخم‌مرغ آب‌پز کنارش.'],
+ ['۲۵ گرم','ماست و میوه','۲۵۰ گرم ماست + میوه + یک قاشق گردو. وقتی اشتها نداری.']
+];
+
+var SHOP=[['تخم‌مرغ ۱۲ عددی','~۳ €'],['تن ماهی بسته ۶ تایی','~۵ €'],['مرغ کامل ۱.۵ کیلو','~۶ €'],
+ ['سوسیس مرغ ۵۰۰ گرم','~۳ €'],['پاستا ۱ کیلو','~۱ €'],['سس گوجه ۲ شیشه','~۱.۵ €'],
+ ['عدس خشک ۵۰۰ گرم','~۱.۵ €'],['ماست ۱ کیلو','~۲ €'],['سبزیجات منجمد ۱ کیلو','~۱.۵ €']];
+
+/* -------- state -------- */
+function tk(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function day(){var d=D.days[tk()]||{};if(!d.items)d.items=[];return d;}
+var sT;function save(){clearTimeout(sT);sT=setTimeout(function(){store.set(KEY,JSON.stringify(D));},400);}
+function setDay(p){D.days[tk()]=Object.assign({},day(),p);save();render();}
+function bump(n){setDay({breaks:Math.max(0,(day().breaks||0)+n)});}
+
+/* -------- food logging -------- */
+var SEL=null;
+function mode(m){
+  document.getElementById('tab-s').classList.toggle('on',m==='s');
+  document.getElementById('tab-m').classList.toggle('on',m==='m');
+  document.getElementById('m-search').classList.toggle('hide',m!=='s');
+  document.getElementById('m-manual').classList.toggle('hide',m!=='m');
+}
+function doSearch(){
+  var q=document.getElementById('q').value.trim().toLowerCase();
+  var box=document.getElementById('res');
+  if(!q){box.classList.add('hide');return;}
+  var hits=FOODS.filter(function(f){return (f[0]+' '+f[1]).toLowerCase().indexOf(q)>-1;}).slice(0,8);
+  if(!hits.length){box.innerHTML='<div style="color:var(--muted)">پیدا نشد — از «وارد کردن دستی» استفاده کن</div>';box.classList.remove('hide');return;}
+  box.innerHTML=hits.map(function(f){
+    var i=FOODS.indexOf(f);
+    var u=f[4]==='u'?'هر عدد':'۱۰۰ گرم';
+    return '<div onclick="pick('+i+')"><span>'+f[0]+'</span><small>'+f[2]+'g P · '+f[3]+' kcal / '+u+'</small></div>';
+  }).join('');
+  box.classList.remove('hide');
+}
+function pick(i){
+  SEL=FOODS[i];
+  document.getElementById('res').classList.add('hide');
+  document.getElementById('q').value='';
+  document.getElementById('sel').classList.remove('hide');
+  document.getElementById('sel-n').textContent=SEL[0];
+  document.getElementById('sel-base').textContent=SEL[4]==='u'
+    ? 'هر عدد: '+SEL[2]+' گرم پروتئین، '+SEL[3]+' کالری'
+    : 'هر ۱۰۰ گرم: '+SEL[2]+' گرم پروتئین، '+SEL[3]+' کالری';
+  document.getElementById('sel-lab').textContent=SEL[4]==='u'?'تعداد':'مقدار (گرم)';
+  document.getElementById('sel-amt').value=SEL[5];
+  live();
+}
+function live(){
+  if(!SEL)return;
+  var a=parseFloat(document.getElementById('sel-amt').value)||0;
+  var f=SEL[4]==='u'?a:a/100;
+  document.getElementById('sel-live').textContent=
+    Math.round(SEL[2]*f)+' g پروتئین  ·  '+Math.round(SEL[3]*f)+' kcal';
+}
+function addSel(){
+  if(!SEL)return;
+  var a=parseFloat(document.getElementById('sel-amt').value);
+  if(!a||a<=0){alert('مقدار را وارد کن');return;}
+  var f=SEL[4]==='u'?a:a/100;
+  var q=SEL[4]==='u'?a+' عدد':a+' گرم';
+  var it=day().items.concat([{n:SEL[0],q:q,p:Math.round(SEL[2]*f),k:Math.round(SEL[3]*f)}]);
+  SEL=null;document.getElementById('sel').classList.add('hide');
+  setDay({items:it});
+}
+/* دسته‌های تخمینی — عدد به ازای هر ۱۰۰ گرم */
+var CATS=[
+ ['گوشت و مرغ پخته',27,200],['ماهی و غذای دریایی',20,120],['تخم‌مرغ و املت',12,150],
+ ['ماست، شیر، پنیر نرم',7,90],['پنیر سفت یا پرچرب',22,330],['حبوبات پخته',8.5,130],
+ ['برنج، پاستا، غلات پخته',4,145],['نان',8.5,260],['سیب‌زمینی و ریشه‌ای',2.2,95],
+ ['سبزیجات',2,40],['میوه',0.8,55],['خورش و غذای ایرانی',6.5,140],
+ ['ساندویچ، پیتزا، فست‌فود',11,260],['سوپ و آش',3.5,70],['کیک، شیرینی، بیسکویت',6,400],
+ ['شکلات',8,550],['بستنی و دسر سرد',4,210],['آجیل و مغزها',18,620],
+ ['سس و روغن',1,500],['نوشیدنی شیرین',0,45]
+];
+var SIZES=[['کم',80],['متوسط',150],['زیاد',250],['خیلی زیاد',350]];
+var MCAT=null;
+
+function norm(s){return (s||'').replace(/\u200c/g,'').replace(/[يی]/g,'ی').replace(/[كک]/g,'ک').toLowerCase().trim();}
+function guessFood(q){
+  q=norm(q); if(q.length<2)return null;
+  var ws=q.split(/\s+/).filter(function(w){return w.length>1;}),best=null,sc=0;
+  FOODS.forEach(function(f){
+    if(f[4]==='u')return;
+    var hay=norm(f[0]+' '+f[1]);
+    ws.forEach(function(w){ if(hay.indexOf(w)>-1 && w.length>sc){sc=w.length;best=f;} });
+  });
+  return best?{n:best[0],p:best[2],k:best[3]}:null;
+}
+function guess(){ var g=guessFood(document.getElementById('mn').value); if(g)MCAT=g; renderGuess(); mlive(); }
+function renderGuess(){
+  var b=document.getElementById('guessbox');
+  if(MCAT){
+    b.innerHTML='<div class="muted" style="font-size:12.5px;">بر اساس <b>'+MCAT.n+'</b> حساب می‌کنم — هر ۱۰۰ گرم: '+MCAT.p+' گرم پروتئین، '+MCAT.k+' کالری</div>'+
+      '<button class="chip" style="margin-top:8px;" onclick="MCAT=null;renderGuess();mlive();">دسته را خودم انتخاب می‌کنم</button>';
+  }else{
+    b.innerHTML='<div class="muted" style="font-size:12.5px;">این غذا بیشتر شبیه کدام است؟</div><div class="chips">'+
+      CATS.map(function(c,i){return '<button class="chip" onclick="pickCat('+i+')">'+c[0]+'</button>';}).join('')+'</div>';
+  }
+}
+function pickCat(i){ MCAT={n:CATS[i][0],p:CATS[i][1],k:CATS[i][2]}; renderGuess(); mlive(); }
+function setG(v){ document.getElementById('mg').value=v; mlive(); }
+function mlive(){
+  var g=parseFloat(document.getElementById('mg').value)||0,el=document.getElementById('mlive');
+  el.textContent=(MCAT&&g)?('≈ '+Math.round(MCAT.p*g/100)+' g پروتئین  ·  '+Math.round(MCAT.k*g/100)+' kcal'):'';
+}
+function addManual(){
+  var n=document.getElementById('mn').value.trim();
+  var g=parseFloat(document.getElementById('mg').value);
+  if(!n){alert('اسم غذا را بنویس');return;}
+  if(!g||g<=0){alert('مقدار را به گرم وارد کن');return;}
+  if(!MCAT){alert('یک دسته انتخاب کن تا بتوانم تخمین بزنم');return;}
+  var it=day().items.concat([{n:n,q:g+' گرم',p:Math.round(MCAT.p*g/100),k:Math.round(MCAT.k*g/100)}]);
+  document.getElementById('mn').value='';document.getElementById('mg').value='';
+  MCAT=null;renderGuess();document.getElementById('mlive').textContent='';
+  setDay({items:it});
+}
+function delItem(i){var it=day().items.slice();it.splice(i,1);setDay({items:it});}
+
+function saveEntry(){
+  var w=parseFloat(document.getElementById('i-weight').value);
+  if(!w||w<30||w>200){alert('وزن را وارد کن');return;}
+  var e={weight:w};
+  ['waist','thigh','arm'].forEach(function(k){var v=parseFloat(document.getElementById('i-'+k).value);if(v)e[k]=v;});
+  D.entries[tk()]=e;save();
+  ['weight','waist','thigh','arm'].forEach(function(k){document.getElementById('i-'+k).value='';});
+  render();
+}
+function go(v){
+  ['today','train','food','prog'].forEach(function(x){document.getElementById('v-'+x).classList.toggle('hide',x!==v);});
+  document.querySelectorAll('nav button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v);});
+  window.scrollTo(0,0);
+}
+
+function polar(cx,cy,r,d){var a=(d-90)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+function drawDial(){
+  var g='',dg=function(h){return h/24*360;};
+  var s=polar(110,110,88,dg(FAST_START)),e=polar(110,110,88,dg(FAST_END));
+  g+='<circle cx="110" cy="110" r="88" fill="none" stroke="#DDE3D8" stroke-width="2"/>';
+  g+='<path d="M '+s[0]+' '+s[1]+' A 88 88 0 0 0 '+e[0]+' '+e[1]+'" fill="none" stroke="#8A4A6B" stroke-width="9"/>';
+  for(var i=0;i<24;i++){var mj=i%6===0,a=polar(110,110,88-(mj?14:7),dg(i)),b=polar(110,110,86,dg(i));
+    g+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+(mj?'#6E7A6E':'#DDE3D8')+'" stroke-width="'+(mj?2:1.5)+'"/>';}
+  var n=new Date(),h=n.getHours()+n.getMinutes()/60,t=polar(110,110,72,dg(h));
+  g+='<line x1="110" y1="110" x2="'+t[0]+'" y2="'+t[1]+'" stroke="#1C2620" stroke-width="3.5" stroke-linecap="round"/>';
+  g+='<circle cx="110" cy="110" r="6" fill="#1C2620"/>';
+  document.getElementById('dial').innerHTML=g;
+}
+function drawChart(){
+  var ks=Object.keys(D.entries).sort(),el=document.getElementById('chart');
+  if(ks.length<2){el.innerHTML='<div class="muted">دو روز ثبت کن تا خط شروع شود. نوسان روزانه آب است نه چربی — فقط جهت یک‌ماهه معنی دارد.</div>';return;}
+  var vs=ks.map(function(k){return D.entries[k].weight;});
+  var mn=Math.min.apply(null,vs.concat([D.goal]))-0.8,mx=Math.max.apply(null,vs)+0.8;
+  var W=300,H=150,P=26,x=function(i){return P+i*(W-P*2)/(ks.length-1);},y=function(v){return H-P-(v-mn)/(mx-mn)*(H-P*2);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;direction:ltr;">';
+  s+='<line x1="'+P+'" y1="'+y(D.goal)+'" x2="'+(W-P)+'" y2="'+y(D.goal)+'" stroke="#8A4A6B" stroke-width="1.5" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(W-P)+'" y="'+(y(D.goal)-6)+'" text-anchor="end" font-size="10" fill="#8A4A6B" font-family="IBM Plex Mono">59 kg</text>';
+  s+='<polyline points="'+vs.map(function(v,i){return x(i)+','+y(v);}).join(' ')+'" fill="none" stroke="#3D6B4A" stroke-width="2.5" stroke-linejoin="round"/>';
+  vs.forEach(function(v,i){s+='<circle cx="'+x(i)+'" cy="'+y(v)+'" r="3.5" fill="#3D6B4A"/>';});
+  s+='</svg>';el.innerHTML=s;
+}
+
+function render(){
+  var n=new Date(),dw=n.getDay();
+  document.getElementById('today').textContent=n.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'});
+  var h=n.getHours()+n.getMinutes()/60,eat=h>=FAST_END&&h<FAST_START;
+  var tg=eat?FAST_START:(h<FAST_END?FAST_END:FAST_END+24),rm=tg-h,rh=Math.floor(rm),mi=Math.round((rm-rh)*60);
+  var ps=document.getElementById('fstate');
+  ps.textContent=eat?'پنجره غذا باز است':'روزه';ps.className='pill '+(eat?'e':'f');
+  document.getElementById('ftimer').textContent=rh+'h '+String(mi).padStart(2,'0')+'m';
+  document.getElementById('fnote').textContent=eat?'تا بسته شدن پنجره ساعت ۲۱. اول پروتئین، بعد شکلات.':'تا ناهار ساعت ۱۴. آب، چای و قهوه تلخ آزاد است.';
+  drawDial();
+
+  var d=day(),items=d.items||[];
+  var tp=items.reduce(function(a,b){return a+(b.p||0);},0);
+  var tkcal=items.reduce(function(a,b){return a+(b.k||0);},0);
+  document.getElementById('plabel').textContent=tp+' / '+P_GOAL+' g';
+  document.getElementById('pbar').style.width=Math.min(100,tp/P_GOAL*100)+'%';
+  document.getElementById('klabel').textContent=tkcal+' / '+K_GOAL;
+  document.getElementById('kbar').style.width=Math.min(100,tkcal/K_GOAL*100)+'%';
+  document.getElementById('log').innerHTML=items.length
+    ? items.map(function(it,i){return '<div class="li"><div><div>'+it.n+'</div><div class="meta">'+(it.q?it.q+' · ':'')+it.p+'g P · '+it.k+' kcal</div></div><button class="del" onclick="delItem('+i+')">×</button></div>';}).join('')
+    : '<div class="muted" style="padding-top:12px;">هنوز چیزی ثبت نشده.</div>';
+
+  var br=d.breaks||0;
+  document.getElementById('bval').textContent=br;
+  document.getElementById('bbar').style.width=Math.min(100,br/B_GOAL*100)+'%';
+  document.getElementById('checks').innerHTML=CHECKS.map(function(c){
+    return '<div class="chk" onclick="setDay({'+c[0]+':'+(!d[c[0]])+'})"><div class="bx'+(d[c[0]]?' on':'')+'"></div>'+c[1]+'</div>';}).join('');
+
+  var w=PROGRAM[dw];
+  document.getElementById('wfocus').textContent=w.f+(w.m?' · '+w.m+' دقیقه':'');
+  document.getElementById('wname').textContent=w.n;
+  document.getElementById('wlist').innerHTML=w.w.map(function(x){
+    var tg=x[3]==='warn'?'<span class="tag warn">عمق کنترل‌شده</span>':'<span class="tag">بی‌خطر برای زانو</span>';
+    return '<div class="ex"><div class="ex-h"><div class="ex-n">'+x[0]+(x[1]?tg:'')+'</div><div class="ex-d">'+x[1]+'</div></div>'+(x[2]?'<div class="ex-c">'+x[2]+'</div>':'')+'</div>';}).join('');
+  document.getElementById('week').innerHTML=ORDER.map(function(i){
+    return '<div class="wk'+(i===dw?' now':'')+'"><span>'+DAYNAMES[i]+' — '+PROGRAM[i].n+'</span><span>'+(PROGRAM[i].m?PROGRAM[i].m+' دقیقه':'—')+'</span></div>';}).join('');
+
+  var ks=Object.keys(D.entries).sort();
+  var lat=ks.length?D.entries[ks[ks.length-1]].weight:D.start;
+  var lost=D.start-lat,pct=Math.max(0,Math.min(100,lost/(D.start-D.goal)*100));
+  document.getElementById('s-now').textContent=lat.toFixed(1);
+  document.getElementById('s-lost').textContent=(lost>0?'−':'')+Math.abs(lost).toFixed(1);
+  document.getElementById('s-togo').textContent=(lat-D.goal).toFixed(1);
+  document.getElementById('gbar').style.width=pct+'%';
+  document.getElementById('gpct').textContent=pct.toFixed(0)+'%';
+  drawChart();
+}
+
+function buildStatic(){
+  var f=function(a){return a.map(function(m){
+    return '<div class="meal"><div class="meal-h"><strong>'+m[1]+'</strong><span class="meal-t">'+m[0]+'</span></div><div class="meal-b">'+m[2]+'</div></div>';}).join('');};
+  document.getElementById('plan').innerHTML=f(PLAN.map(function(p){return [p[0],p[1],p[2]];}));
+  document.getElementById('l-rice').innerHTML=f(RICE);
+  document.getElementById('l-pasta').innerHTML=f(PASTA);
+  document.getElementById('l-quick').innerHTML=f(QUICK);
+  document.getElementById('l-dinner').innerHTML=f(DINNER);
+  document.getElementById('shop').innerHTML=SHOP.map(function(s){
+    return '<div class="wk"><span>'+s[0]+'</span><span>'+s[1]+'</span></div>';}).join('');
+  document.getElementById('sizes').innerHTML=SIZES.map(function(s){
+    return '<button class="chip" onclick="setG('+s[1]+')">'+s[0]+' ~'+s[1]+'g</button>';}).join('');
+  renderGuess();
+}
+
+(async function(){
+  buildStatic();
+  try{var r=await store.get(KEY);if(r)D=Object.assign(D,JSON.parse(r));}catch(e){}
+  render();setInterval(render,60000);
+})();
+</script>
+</body>
+</html>
